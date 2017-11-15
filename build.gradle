@@ -1,0 +1,40 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+springBoot {
+    mainClass = 'org.richfell.microrest.Application'
+}
+
+bootRun {
+    main = 'org.richfell.microrest.Application'
+    jvmArgs = ["-Dserver.port=9090"]
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    // spring
+	compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework:spring-jdbc'
+    compile 'org.springframework:spring-orm'
+
+    // persistence
+    compile "org.hsqldb:hsqldb:$hsqldbVersion"
+	compile "org.eclipse.persistence:javax.persistence:$jpaVersion"
+	compile "org.hibernate:hibernate-core:$hibernateVersion"
+	compile "org.hibernate:hibernate-c3p0:$hibernateVersion"
+
+    // unit tests
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.jmockit:jmockit:$jmockitVersion"
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
