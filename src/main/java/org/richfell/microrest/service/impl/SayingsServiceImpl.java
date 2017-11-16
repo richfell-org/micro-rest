@@ -5,6 +5,7 @@ package org.richfell.microrest.service.impl;
 
 import java.util.Collection;
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import org.richfell.microrest.Saying;
 import org.richfell.microrest.service.SayingsService;
 import org.richfell.microrest.service.dao.SayingsDao;
@@ -41,6 +42,7 @@ implements SayingsService
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Integer create(Saying saying)
     {
         sayingsDao.add(saying);
@@ -48,12 +50,14 @@ implements SayingsService
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void update(Saying saying)
     {
         sayingsDao.update(saying);
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteById(Integer id)
     {
         Saying saying = sayingsDao.find(id);
