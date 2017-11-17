@@ -45,7 +45,10 @@ public class DatabaseController
     @RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Collection<Saying> getSayings()
     {
-        try { return sayingsService.findAll(); }
+        try
+        {
+            return sayingsService.findAll();
+        }
         catch(Throwable e)
         {
             LOGGER.error("Error with SayingsService", e);
@@ -75,7 +78,7 @@ public class DatabaseController
      * @param id the ID of the saying
      * @return the <code>Saying</code> with the ID
      */
-    @RequestMapping(path="/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path="/{id:[0-9]+}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Saying getSaying(@PathVariable("id") Integer id)
     {
         return RestPreconditions.checkFound(sayingsService.findOne(id));
@@ -95,12 +98,36 @@ public class DatabaseController
         // must have a non-null parameter
         Preconditions.checkNotNull(saying);
 
+        LOGGER.info("Creating saying {}", saying);
+
         // persist the saying
         Integer newId = sayingsService.create(saying);
 
         // build the Location header value with the URL for the new saying
-        UriComponents uriLocation = b.path("/rigs/{id}").buildAndExpand(newId);
+        UriComponents uriLocation = b.path("/sayings/{id}").buildAndExpand(newId);
         return ResponseEntity.created(uriLocation.toUri()).build();
+    }
+
+    /**
+     * Updates an existing <code>Saying</code> with the given value.
+     * 
+     * @param id the ID of the saying
+     * @param saying the new value for the saying
+     */
+    @RequestMapping(path="/{id:[0-9]+}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void updateSaying(@PathVariable("id") Integer id, @RequestBody Saying saying)
+    {
+        // verify the input
+        Preconditions.checkNotNull(saying);
+        RestPreconditions.checkFound(sayingsService.findOne(id));
+
+        LOGGER.info("Updating saying {} with {}", id, saying);
+
+        // force the ID to the one in the request path
+        saying.setId(id);
+
+        // update the saying
+        sayingsService.update(saying);
     }
 
     /**
@@ -109,9 +136,10 @@ public class DatabaseController
      * @param id the ID of the saying to delete
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(path="/{id}", method=RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Integer id)
+    @RequestMapping(path="/{id:[0-9]+}", method=RequestMethod.DELETE)
+    public void deleteSaying(@PathVariable("id") Integer id)
     {
+        LOGGER.info("Deleting saying with ID {}", id);
         sayingsService.deleteById(id);
     }
 }

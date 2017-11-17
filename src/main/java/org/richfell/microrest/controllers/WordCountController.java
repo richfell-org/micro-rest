@@ -8,8 +8,9 @@ import java.util.Map;
 import java.util.Set;
 import org.richfell.microrest.Paragraph;
 import org.richfell.microrest.UniqueWord;
-import org.richfell.microrest.controllers.errors.BadRequestException;
 import org.richfell.microrest.util.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/words")
 public class WordCountController
 {
+    static private final Logger LOGGER = LoggerFactory.getLogger(WordCountController.class);
+
     /**
      * Accepts a <code>Paragraph</code> and returns a collection of the unique words from the supplied
      * paragraph along with a count of the number of occurrences.
@@ -35,8 +38,12 @@ public class WordCountController
     @RequestMapping(method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Collection<UniqueWord> getUniqueWords(@RequestBody Paragraph paragraph)
     {
-        Preconditions.checkNotNull(paragraph, BadRequestException.class);
-        Preconditions.checkNotNull(paragraph.getText(), BadRequestException.class);
+        // validate the input
+        Preconditions.checkNotNull(paragraph);
+        Preconditions.checkNotNull(paragraph.getText());
+
+        LOGGER.info("Processing paragraph: {}", paragraph.getText());
+
         return countUniqueWords(paragraph);
     }
 
@@ -65,7 +72,7 @@ public class WordCountController
         }
 
         // create an SortedSet with UniqueWord instances
-        Set<UniqueWord> wordSet = new java.util.TreeSet<UniqueWord>();
+        Set<UniqueWord> wordSet = new java.util.TreeSet<>();
         for(Map.Entry<String, Long> e : wordMap.entrySet())
             wordSet.add(new UniqueWord(e.getKey(), e.getValue()));
 

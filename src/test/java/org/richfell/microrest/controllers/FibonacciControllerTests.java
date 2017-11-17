@@ -3,49 +3,102 @@
 
 package org.richfell.microrest.controllers;
 
-import java.util.List;
 import mockit.Tested;
 import mockit.integration.junit4.JMockit;
-import org.junit.Assert;
+import static org.hamcrest.Matchers.contains;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.richfell.microrest.controllers.errors.BadRequestException;
+import org.richfell.microrest.Application;
+import org.richfell.microrest.config.PersistenceConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- *
+ * Tests for the /fibonacci-numbers controller.
+ * 
  * @author Richard Fellinger rich@richfell.org
  */
+@SpringBootTest(
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    classes = { Application.class, PersistenceConfig.class })
 @RunWith(JMockit.class)
 public class FibonacciControllerTests
 {
-    @Tested
+    @Tested(availableDuringSetup = true)
     FibonacciController controller;
 
-    @Test(expected = BadRequestException.class)
-    public void firstNTestWithNullParam()
+    @Rule
+    public ExpectedException illegalArgExceptionRule = ExpectedException.none();
+
+    private MockMvc mockMvc;
+
+    @Before
+    public void setup()
     {
-        controller.getFirstN(null);
+        mockMvc = MockMvcBuilders
+            .standaloneSetup(controller)
+            .setControllerAdvice(MicrorestControllerAdvice.class)
+            .build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void firstNTestWithInvalidN()
-    {
-        controller.getFirstN(-3);
-    }
-
+    /**
+     * Test for the first 7 Fibonacci numbers.
+     * 
+     * @throws Exception 
+     */
     @Test
-    public void firstNTest()
+    public void firstNRequestTest()
+    throws Exception
     {
-        List<Integer> numbers = controller.getFirstN(5);
-        Assert.assertNotNull("Result is null", numbers);
-        Assert.assertEquals(5, numbers.size());
+        mockMvc
+            .perform(get("/fibonacci-numbers?n=7").accept(MediaType.APPLICATION_JSON_UTF8))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$.[*]", contains(0,1,1,2,3,5,8)));
+    }
 
-        List<Integer> expectedNumbers = new java.util.ArrayList<>(5);
-        expectedNumbers.add(0);
-        expectedNumbers.add(1);
-        expectedNumbers.add(1);
-        expectedNumbers.add(2);
-        expectedNumbers.add(3);
-        Assert.assertEquals(expectedNumbers, numbers);
+    /**
+     * Test for the first N Fibonacci numbers without providing a
+     * value for N but including the parameter "n" in the request.
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void firstNRequestWithNoValueTest()
+    throws Exception
+    {
+        illegalArgExceptionRule.expectCause(org.hamcrest.Matchers.any(NullPointerException.class));
+
+        mockMvc
+            .perform(get("/fibonacci-numbers?n=").accept(MediaType.APPLICATION_JSON_UTF8))
+            .andDo(print())
+            .andExpect(status().is4xxClientError());
+    }
+
+    /**
+     * Passes an invalid value for N.
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void firstNRequestWithInvalidNValueTest()
+    throws Exception
+    {
+        illegalArgExceptionRule.expectCause(org.hamcrest.Matchers.any(IllegalArgumentException.class));
+
+        mockMvc
+            .perform(get("/fibonacci-numbers?n=-8").accept(MediaType.APPLICATION_JSON_UTF8))
+            .andDo(print())
+            .andExpect(status().is4xxClientError());
     }
 }

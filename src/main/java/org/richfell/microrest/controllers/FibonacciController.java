@@ -4,7 +4,6 @@
 package org.richfell.microrest.controllers;
 
 import java.util.List;
-import org.richfell.microrest.controllers.errors.BadRequestException;
 import org.richfell.microrest.util.Preconditions;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Richard Fellinger rich@richfell.org
  */
 @RestController
-@RequestMapping("/fibonacci")
+@RequestMapping("/fibonacci-numbers")
 public class FibonacciController
 {
     /**
@@ -29,7 +28,7 @@ public class FibonacciController
     @RequestMapping(method=RequestMethod.GET)
     public List<Integer> getFirstN(@RequestParam("n") Integer N)
     {
-        Preconditions.checkNotNull(N, BadRequestException.class);
+        Preconditions.checkNotNull(N);
         Preconditions.checkArgument(N >= 0);
         return getFibonacciNumbers(N);
     }

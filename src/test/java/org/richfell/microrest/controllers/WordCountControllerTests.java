@@ -8,7 +8,6 @@ import mockit.Tested;
 import mockit.integration.junit4.JMockit;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

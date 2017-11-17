@@ -35,6 +35,13 @@ implements java.io.Serializable
         this.id = id;
     }
 
+    public Saying(Integer id, String name, String quote)
+    {
+        this(id);
+        this.name = name;
+        this.quote = quote;
+    }
+
     /** The DB table record ID */
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

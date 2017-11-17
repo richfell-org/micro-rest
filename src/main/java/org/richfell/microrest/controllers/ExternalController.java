@@ -108,7 +108,7 @@ class ExternalController
         ParameterizedTypeReference typeRef = externalEntityCollectionTypes.get(subEntityName);
         if(typeRef == null)
         {
-            logger.error("Unknown external sub-entity \"{}\" requested", entityName);
+            logger.error("Unknown external sub-entity \"{}\" requested", subEntityName);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
