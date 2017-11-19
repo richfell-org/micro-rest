@@ -1,10 +1,5 @@
-/*
- */
 
 package org.richfell.microrest.util;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  *
@@ -33,6 +28,17 @@ public final class Preconditions
     {
         if(!expression)
             throw new IllegalArgumentException(String.valueOf(errorMessage));
+    }
+
+    /**
+     * 
+     * @param expression a boolean expression
+     * @param errorMessage The exception message to use
+     */
+    public static void checkArgument(boolean expression, Object errorMessage, Object... msgArgs)
+    {
+        if(!expression)
+            throw new IllegalArgumentException(buildMessage(errorMessage, msgArgs));
     }
 
     /**
@@ -67,71 +73,26 @@ public final class Preconditions
     /**
      * 
      * @param <T>
-     * @param <E>
      * @param reference
-     * @param errorClass
+     * @param errorMessage
      * @return 
      */
-    public static <T, E extends RuntimeException> T checkNotNull(T reference, Class<E> errorClass)
+    public static <T> T checkNotNull(T reference, Object errorMessage, Object... msgArgs)
     {
         if(reference == null)
-            throw errorInstance(errorClass);
+          throw new NullPointerException(buildMessage(errorMessage, msgArgs));
 
         return reference;
     }
 
     /**
      * 
-     * @param <T>
-     * @param <E>
-     * @param reference
-     * @param errorMessage
-     * @param errorClass
+     * @param fmt
+     * @param args
      * @return 
      */
-    public static <T, E extends RuntimeException> T checkNotNull(
-        T reference,
-        Object errorMessage,
-        Class<E> errorClass)
+    static private String buildMessage(Object fmt, Object[] args)
     {
-        if(reference == null)
-            throw errorInstance(errorClass, errorMessage);
-
-        return reference;
-    }
-
-    /**
-     * 
-     * @param <E>
-     * @param clazz
-     * @return 
-     */
-    static private <E extends RuntimeException> RuntimeException errorInstance(Class<E> clazz)
-    {
-        try { return clazz.newInstance(); }
-        catch(InstantiationException | IllegalAccessException e)
-        {
-            return new NullPointerException();
-        }
-    }
-
-    /**
-     * 
-     * @param <E>
-     * @param clazz
-     * @param errorMessage
-     * @return 
-     */
-    static private <E extends RuntimeException> RuntimeException errorInstance(Class<E> clazz, Object errorMessage)
-    {
-        try
-        {
-            Constructor<E> ctor = clazz.getDeclaredConstructor(String.class);
-            return ctor.newInstance(String.valueOf(errorMessage));
-        }
-        catch(InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
-        {
-            return new NullPointerException();
-        }
+        return String.format(String.valueOf(fmt), args);
     }
 }

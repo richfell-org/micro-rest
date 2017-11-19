@@ -4,7 +4,7 @@
 package org.richfell.microrest.externalentities;
 
 /**
- * A latitude and longitude coordinate.
+ * A latitude and longitude coordinate.  Used in JSONPlaceholder user entities.
  * 
  * @author Richard Fellinger rich@richfell.org
  */

@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.service.impl;
 
@@ -19,13 +17,14 @@ import org.slf4j.LoggerFactory;
  * A JPA implementation of the <code>GenericDao</code> interface.
  * 
  * @author Richard Fellinger rich@richfell.org
- * @param <E> the entity type
- * @param <K> the key type
+ * @param <E>  the entity type
+ * @param <K>  the key type
  */
 @Transactional(Transactional.TxType.REQUIRED)
 public class JpaDao<E, K extends Serializable>
 implements GenericDao<E, K>
 {
+    /** the logger instance */
     static private final Logger LOGGER = LoggerFactory.getLogger(JpaDao.class);
 
     JpaDao()
@@ -39,6 +38,11 @@ implements GenericDao<E, K>
     /** JPA entity manager */
     protected EntityManager em;
 
+    /**
+     * Sets the JPA <code>EntityManger</code> used by this DAO.
+     * 
+     * @param em  the entity manager
+     */
     @PersistenceContext(unitName="microrest-persistence")
     public void setPersistenceContext(EntityManager em)
     {

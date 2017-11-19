@@ -1,10 +1,9 @@
-/*
- */
 
 package org.richfell.microrest.externalentities;
 
 /**
- *
+ * A class for JSONPlaceholder photo entities.
+ * 
  * @author Richard Fellinger rich@richfell.org
  */
 public class ExternalPhoto
@@ -20,7 +19,7 @@ extends ExternalEntity
     /**
      * Creates a <code>ExternalPhoto</code> with the given ID.
      * 
-     * @param id the ID for the photo
+     * @param id  the ID for the photo
      */
     public ExternalPhoto(Long id)
     {
@@ -43,7 +42,7 @@ extends ExternalEntity
     /**
      * Sets the album ID.
      * 
-     * @param albumId the album ID
+     * @param albumId  the album ID
      */
     public void setAlbumId(Long albumId)
     {
@@ -66,7 +65,7 @@ extends ExternalEntity
     /**
      * Sets the photo title.
      * 
-     * @param title the title
+     * @param title  the title
      */
     public void setTitle(String title)
     {
@@ -89,7 +88,7 @@ extends ExternalEntity
     /**
      * Sets the photo's URL.
      * 
-     * @param url the URL
+     * @param url  the URL
      */
     public void setUrl(String url)
     {
@@ -112,7 +111,7 @@ extends ExternalEntity
     /**
      * Sets the photo's thumbnail URL.
      * 
-     * @param thumbnailUrl the thumbnail URL
+     * @param thumbnailUrl  the thumbnail URL
      */
     public void setThumbnailUrl(String thumbnailUrl)
     {

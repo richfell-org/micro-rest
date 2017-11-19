@@ -27,6 +27,9 @@ dependencies {
     compile 'org.springframework:spring-jdbc'
     compile 'org.springframework:spring-orm'
 
+    // extra Jackson deps
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
     // persistence
     compile "org.hsqldb:hsqldb:$hsqldbVersion"
 	compile "org.eclipse.persistence:javax.persistence:$jpaVersion"

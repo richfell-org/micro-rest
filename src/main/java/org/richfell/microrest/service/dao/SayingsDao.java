@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.service.dao;
 
@@ -17,7 +15,7 @@ extends GenericDao<Saying, Integer>
     /**
      * Find sayings that have the given text within their quote.
      * 
-     * @param text the text to match
+     * @param text  the text to match
      * @return the sayings which have quotes containing the given text
      */
     Collection<Saying> findContaingText(String text);

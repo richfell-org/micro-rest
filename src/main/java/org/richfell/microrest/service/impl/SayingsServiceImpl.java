@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.service.impl;
 
@@ -12,7 +10,8 @@ import org.richfell.microrest.service.dao.SayingsDao;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * An implementation of the {@link org.richfell.microrest.service.SayingsService}
+ * 
  * @author Richard Fellinger rich@richfell.org
  */
 @Service("sayingsService")

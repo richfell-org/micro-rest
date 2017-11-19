@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.config;
 
@@ -23,6 +21,11 @@ import org.springframework.core.ParameterizedTypeReference;
 @Configuration
 public class AppConfig
 {
+    /**
+     * A map of JSONPlaceholder entity names to their Java types.
+     * 
+     * @return a map of the entity names to their type
+     */
     @Bean(name="externalEntityClasses")
     public Map<String, Class> externalEntityClassesBean()
     {
@@ -37,8 +40,10 @@ public class AppConfig
     }
 
     /**
+     * A map of JSONPlaceholder entity names to their generic collection Java types.
+     * The <code>ParameterizedTypeReference</code> instances are user with <code>RestTemplate</code>.
      * 
-     * @return 
+     * @return a map of the entity names to their generic collection type
      */
     @Bean(name="externalEntityCollectionTypes")
     public Map<String, ParameterizedTypeReference> externalEntityCollectionTypeBean()

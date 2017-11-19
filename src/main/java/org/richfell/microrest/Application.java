@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application
 {
     /**
-     * Application entry point.
+     * Application entry point.  Launches a Spring Boot application.
      * 
      * @param args the command line arguments
      */

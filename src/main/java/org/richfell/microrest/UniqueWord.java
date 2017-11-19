@@ -1,12 +1,10 @@
-/*
- */
 
 package org.richfell.microrest;
 
 import java.util.Objects;
 
 /**
- * A unique word.
+ * A class to track a unique word from a paragraph of text along with its occurrence count.
  * 
  * @author Richard Fellinger rich@richfell.org
  */
@@ -63,7 +61,7 @@ implements Comparable<UniqueWord>
     /**
      * Sets the unique word.
      * 
-     * @param word the unique word
+     * @param word  the unique word
      */
     public void setWord(String word)
     {
@@ -86,7 +84,7 @@ implements Comparable<UniqueWord>
     /**
      * Sets the number of occurrences of the unique word.
      * 
-     * @param occurrences the number of occurrences of the unique word
+     * @param occurrences  the number of occurrences of the unique word
      */
     public void setOccurrences(Long occurrences)
     {

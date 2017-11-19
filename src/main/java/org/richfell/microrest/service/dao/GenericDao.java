@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.service.dao;
 
@@ -15,28 +13,28 @@ public interface GenericDao<E, K>
     /**
      * Persist the entity to the underlying repository.
      * 
-     * @param entity the entity to add to the repository
+     * @param entity  the entity to add to the repository
      */
     void add(E entity);
 
     /**
      * Update the existing entity in the underlying repository.
      * 
-     * @param entity the entity to use for the update
+     * @param entity  the entity to use for the update
      */
     void update(E entity);
 
     /**
      * Delete the entity from the underlying repository.
      * 
-     * @param entity the entity to delete from the repository
+     * @param entity  the entity to delete from the repository
      */
     void remove(E entity);
 
     /**
      * Gets an entity from the underlying repository by its key.
      * 
-     * @param key the key to the entity
+     * @param key  the key to the entity
      * @return the entity with the given key, or <code>null</code> if not found.
      */
     E find(K key);

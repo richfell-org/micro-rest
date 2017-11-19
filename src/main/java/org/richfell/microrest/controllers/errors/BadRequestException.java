@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.controllers.errors;
 
@@ -24,9 +22,10 @@ extends RuntimeException
     }
 
     /**
+     * Creates a new instance of <code>BadRequestException</code> with a detail message and cause.
      * 
-     * @param message
-     * @param cause 
+     * @param message  the detail message
+     * @param cause   a root cause of this exception
      */
     public BadRequestException(final String message, final Throwable cause)
     {
@@ -35,6 +34,7 @@ extends RuntimeException
 
     /**
      * Constructs an instance of <code>BadRequestException</code> with the specified detail message.
+     * 
      * @param message the detail message.
      */
     public BadRequestException(final String message)
@@ -43,8 +43,9 @@ extends RuntimeException
     }
 
     /**
+     * Constructs an instance of <code>BadRequestException</code> with the exception cause.
      * 
-     * @param cause 
+     * @param cause a root cause of this exception
      */
     public BadRequestException(final Throwable cause)
     {

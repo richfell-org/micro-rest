@@ -58,8 +58,22 @@ and the application will use port 9090 instead of 8080.
 
 ## The REST API
 
-The API is accessed using HTTP.  Examples are given using curl to use the service on port 8080 the localhost.  For remote access
-use the remote host and port numbers instead.
+The API is accessed using HTTP.  Successful responses result in content specific to the endpoint and is described in the following
+sections.  When errors occur during request processing each endpoint returns a common error object in the body.
+
+Error response structure:
+
+```
+        {
+            status: "HTTP_STATUS_STRING",
+            timestamp: "yyyy-MM-dd hh:mm:ss",
+            message: "user-friendly-string",
+            systemMessage: "system-error-message-string"
+        }
+```
+
+Examples for transaction with the REST endpoints are given for curl.  The examples use the service on port 8080 the localhost.  For
+remote access use the remote host and port numbers instead.
 
 ### 1) The "Hello World" endpoint
 
@@ -75,8 +89,8 @@ A simple message object is returned by this endpoint with the content "Hello Wor
 
 *   #### Success Response
 
-    + Code: 200
-    + Content: { content: "Hello World" }
+    + **Code:** 200 <br />
+    + **Content:** `{ content: "Hello World" }`
 
 *   #### Using curl
 
@@ -103,13 +117,13 @@ times it was found in the paragraph.  The list is ordered alphabetically.
 
 *   #### Success Response
 
-    + Code: 200
-    + Content: [ { word: "WORD", occurances: INT }, ... ]
+    + **Code:** 200 <br/>
+    + **Content:** `[ { word: "WORD", occurances: INT }, ... ]`
 
 *   #### Error response
 
-    + Code: 400 Bad Request
-    + Content: HTML
+    + **Code:** 400 Bad Request <br/>
+    + **Content:** An error object, described above
 
 *   #### Using curl
 
@@ -135,21 +149,19 @@ A list of the first N Fibonacci numbers is returned as a JSON array of integers.
 
 *   #### Success Response
 
-    + Code: 200
-    + Content: [ 0, 1, 1, 2, ... ]
+    + **Code:** 200 <br/>
+    + **Content:** `[ 0, 1, 1, 2, ... ]`
 
 *   #### Error response
 
-    + Code: 400 Bad Request
-    + Content: HTML
+    + **Code:** 400 Bad Request <br/>
+    + **Content:** An error object, described above
 
 *   #### Using curl
 
     Example: get the first 8 Fibonacci numbers
 
->
->   ```curl http://localhost:8080/fibonacci-numbers?n=8```
->
+        curl http://localhost:8080/fibonacci-numbers?n=8
 
 ### 4) The threads deadlock endpoint
 
@@ -165,7 +177,7 @@ TODO: description
 
 *   #### Success Response
 
-    + Code: 200
+    + **Code:** 200 <br/>
 
 *   #### Using curl
 
@@ -201,18 +213,18 @@ Sayings can be Read, Created and Deleted.
 
     ##### Read all
 
-    + Code: 200
-    + Content: [ { id: INT, name: "", quote: "" }, ... ]
+    + **Code:** 200 <br/>
+    + **Content:** `[ { id: INT, name: "", quote: "" }, ... ]`
 
     ##### Read by ID
 
-    + Code: 200
-    + Content: { id: INT, name: "", quote: "" }
+    + **Code:** 200 <br/>
+    + **Content:** `{ id: INT, name: "", quote: "" }`
 
 *   #### Error response
 
-    + Code: 404 Not Found
-    + Content: HTML
+    + **Code:** 404 Not Found <br/>
+    + **Content:** An error object, described above
 
 *   #### Using curl
 
@@ -238,12 +250,12 @@ Sayings can be Read, Created and Deleted.
     
 *   #### Success Response
 
-    + Code: 201 Created
+    + **Code:** 201 Created <br/>
 
 *   #### Error response
 
-    + Code: 400 Bad Request
-    + Content: HTML
+    + **Code:** 400 Bad Request <br/>
+    + **Content:** An error object, described above
 
 *   #### Using curl
 
@@ -263,7 +275,7 @@ Sayings can be Read, Created and Deleted.
     
 *   #### Success Response
 
-    + Code: 204 No Content
+    + **Code:** 204 No Content <br/>
 
 *   #### Using curl
 
@@ -294,26 +306,49 @@ for an entity's ID.  Entity ID values are integers.
             /external/{entity}
             /external/{entity}/{id}
 
+> Nested URLs are possible in some cases.  The form is
+
+            /external/{entity}/{id}/{nested-entity}
+
+> For example, getting all comments for post with ID 1:
+
+            /external/posts/1/comments
+
+> Query parameters can be used as another way to get the same results.  This query will result is the same as the example above:
+
+            /eternal/comments?postId=1
+
+> Please see [JSONPlaceholder](https://jsonplaceholder.typicode.com/) for details.
+
 *   #### Method
 
         GET
-    
+
+*   #### URL Params
+
+    ##### Optional
+
+    ```postId=[integer]``` - Used to identify a specific post
+
+    ```userId=[integer]``` - Used to identify a specific user
+
+   
 *   #### Success Response
 
     ##### Read all
 
-    + Code: 200
-    + Content: JSON array of objects for the requested entity.
+    + **Code:** 200 <br/>
+    + **Content:** JSON array of objects for the requested entity.
 
     ##### Read by ID
 
-    + Code: 200
-    + Content: JSON object for the requested entity.
+    + **Code:** 200 <br/>
+    + **Content:** JSON object for the requested entity.
 
 *   #### Error response
 
-    + Code: 400 Bad Request
-    + Content: HTML
+    + **Code:** 400 Bad Request <br/>
+    + **Content:** An error object, described above
 
 *   #### Using curl
 

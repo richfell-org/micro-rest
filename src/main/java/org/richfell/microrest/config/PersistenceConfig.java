@@ -1,5 +1,6 @@
 package org.richfell.microrest.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -18,25 +19,26 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class PersistenceConfig
 {
     /**
-     * <code>DriverManagerDataSource</code> bean for our HSQLDB
-     * database.
+     * <code>DriverManagerDataSource</code> bean for our HSQLDB database.  Properties
+     * in application.properties which are prefixed with "app.datasource" are used to
+     * set additional properties of the bean.
      * 
-     * @return the database information
+     * @return the database data source bean
      */
     @Bean(name="microrestDataSource")
+    @ConfigurationProperties(prefix="app.datasource")
     public DriverManagerDataSource driverMgrDataSourceBean()
     {
         DriverManagerDataSource bean = new DriverManagerDataSource();
-        bean.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        bean.setUrl("jdbc:hsqldb:mem:microrestdb");
-        bean.setUsername("mra");
-        bean.setPassword("mrau$3r");
         return bean;
     }
 
     /**
+     * The entity manager factory bean.  It is configured to use the persistence unit
+     * for the HSQLDB targeted by the <code>DataSource</code> bean and to use Hibernate
+     * as the JPA provider.
      * 
-     * @return 
+     * @return the entity manager factory bean
      */
     @Bean(name="microrestEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean()

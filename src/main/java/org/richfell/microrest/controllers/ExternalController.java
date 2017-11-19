@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.controllers;
 
@@ -24,7 +22,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriUtils;
 
 /**
- * Queries an external REST service.
+ * Queries an external REST service using Spring <code>RestTemplate</code>.
+ * 
+ * <p>The external service used is <a href="https://jsonplaceholder.typicode.com">JSONPlaceholder</a>.
  * 
  * @author Richard Fellinger rich@richfell.org
  */
@@ -46,9 +46,9 @@ class ExternalController
     /**
      * Gets the collection of requested entities from the external REST service.
      * 
-     * @param restTemplate the object used to request from the external REST service
-     * @param entityName the name of the external REST service's entity
-     * @param params captures any query parameters in the request URL
+     * @param restTemplate  the object used to request from the external REST service
+     * @param entityName  the name of the external REST service's entity
+     * @param params  captures any query parameters in the request URL
      * @return the results from the external REST service
      */
     @RequestMapping(
@@ -60,7 +60,7 @@ class ExternalController
         @PathVariable("entity") String entityName,
         @RequestParam Map<String, String> params)
     {
-        logger.info("Request for all \"{}\" entities", entityName);
+        logger.trace("Request for all \"{}\" entities", entityName);
 
         // get the collection type
         ParameterizedTypeReference typeRef = externalEntityCollectionTypes.get(entityName);
@@ -72,7 +72,7 @@ class ExternalController
 
         // generate the URL for the external REST service
         String url = addQueryParams(String.format("%s/%s", baseUrl, entityName), params);
-        logger.info("External request: {}", url);
+        logger.trace("External request: {}", url);
 
         // return the results from the external REST service
         return restTemplate.exchange(url, HttpMethod.GET, null, typeRef);
@@ -84,37 +84,37 @@ class ExternalController
      * 
      *  http://HOST:port/external/posts/1/comments
      * 
-     * @param <T> the type being fetched from the external REST service
-     * @param restTemplate the object used to request from the external REST service
-     * @param entityName the name of the "one" entity
-     * @param id the ID of the entity named in <code>entityName<code>
-     * @param subEntityName the name of the "many" entity 
-     * @param params a capture of the request's query parameters
+     * @param <T>  the type being fetched from the external REST service
+     * @param restTemplate  the object used to request from the external REST service
+     * @param entityName  the name of the "one" entity
+     * @param id  the ID of the entity named in <code>entityName<code>
+     * @param nestedEntityName  the name of the "many" entity 
+     * @param params  a capture of the request's query parameters
      * @return the collection of entities returned by the external REST service
      */
     @RequestMapping(
-        path="/{entity}/{id:[0-9]+}/{subentity}",
+        path="/{entity}/{id:[0-9]+}/{nestedentity}",
         method=RequestMethod.GET,
         produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Collection<? extends ExternalEntity>> getExternalSubEntities(
         RestTemplate restTemplate,
         @PathVariable("entity") String entityName,
         @PathVariable("id") Integer id,
-        @PathVariable("subentity") String subEntityName,
+        @PathVariable("nestedentity") String nestedEntityName,
         @RequestParam Map<String, String> params)
     {
-        logger.info("Request for sub-entity \"{}\" of \"{}\" with ID {}", subEntityName, entityName, id);
+        logger.trace("Request for sub-entity \"{}\" of \"{}\" with ID {}", nestedEntityName, entityName, id);
         
-        ParameterizedTypeReference typeRef = externalEntityCollectionTypes.get(subEntityName);
+        ParameterizedTypeReference typeRef = externalEntityCollectionTypes.get(nestedEntityName);
         if(typeRef == null)
         {
-            logger.error("Unknown external sub-entity \"{}\" requested", subEntityName);
+            logger.error("Unknown external sub-entity \"{}\" requested", nestedEntityName);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         // generate the URL for the external REST service
-        String url = addQueryParams(String.format("%s/%s/%d/%s", baseUrl, entityName, id, subEntityName), params);
-        logger.info("External request: {}", url);
+        String url = addQueryParams(String.format("%s/%s/%d/%s", baseUrl, entityName, id, nestedEntityName), params);
+        logger.trace("External request: {}", url);
 
         // return the results from the external REST service
         return restTemplate.exchange(url, HttpMethod.GET, null, typeRef);
@@ -128,11 +128,11 @@ class ExternalController
      * Gets an entity from the external REST service by the entity's ID.  Any query parameters
      * in this request are passed on to the external REST service.
      * 
-     * @param <T> the type of the entity
-     * @param restTemplate the object used to request from the external REST service
-     * @param entityName the name of the entity on the external REST service
-     * @param id the ID of the entity being requested
-     * @param params a capture of the request's query parameters
+     * @param <T>  the type of the entity
+     * @param restTemplate  the object used to request from the external REST service
+     * @param entityName  the name of the entity on the external REST service
+     * @param id  the ID of the entity being requested
+     * @param params  a capture of the request query parameters
      * @return the entity returned by the external REST service
      */
     @RequestMapping(
@@ -145,7 +145,7 @@ class ExternalController
         @PathVariable("id") Integer id,
         @RequestParam Map<String, String> params)
     {
-        logger.info("Request for entity \"{}\" with ID {}", entityName, id);
+        logger.trace("Request for entity \"{}\" with ID {}", entityName, id);
 
         // lookup the class for the entity
         Class type = externalEntityClasses.get(entityName);
@@ -157,7 +157,7 @@ class ExternalController
 
         // generate the URL for the external REST service
         String url = addQueryParams(String.format("%s/%s/%d", baseUrl, entityName, id), params);
-        logger.info("External request: {}", url);
+        logger.trace("External request: {}", url);
 
         // request from the external REST service and return the result
         ResponseEntity<T> response = restTemplate.exchange(url, HttpMethod.GET, null, type);
@@ -168,8 +168,8 @@ class ExternalController
      * Add the given URL query parameters to the URL string.  If the parameter
      * map is empty then the URL itself is returned.
      * 
-     * @param url the base URL
-     * @param params the map of query parameters
+     * @param url  the base URL
+     * @param params  the map of query parameters
      * @return the URL with the query parameters appended, the URL itself if <code>params</code> is empty
      */
     private String addQueryParams(String url, Map<String, String> params)
@@ -192,7 +192,7 @@ class ExternalController
     /**
      * Encode a query parameter.
      * 
-     * @param param the parameter value
+     * @param param  the parameter value
      * @return the encoded query parameter value
      */
     private String encodeQueryParam(String param)

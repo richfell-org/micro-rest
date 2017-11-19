@@ -46,7 +46,7 @@ extends ExternalEntity
     /**
      * Sets the ID of the user for this todo.
      * 
-     * @param userId the user's ID
+     * @param userId  the user's ID
      */
     public void setUserId(Long userId)
     {
@@ -69,7 +69,7 @@ extends ExternalEntity
     /**
      * Sets the todo's title.
      * 
-     * @param title the title
+     * @param title  the title
      */
     public void setTitle(String title)
     {
@@ -92,7 +92,7 @@ extends ExternalEntity
     /**
      * Sets the completed status of this todo.
      * 
-     * @param completed the completed status
+     * @param completed  the completed status
      */
     public void setCompleted(Boolean completed)
     {

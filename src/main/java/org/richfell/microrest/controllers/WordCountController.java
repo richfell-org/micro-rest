@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.controllers;
 
@@ -19,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Word count controller.
+ * A REST endpoint that accepts a JSON object containing a paragraph of text and returns a JSON array of objects.
+ * The returned objects represent the unique words from the supplied paragraph along with a count of the number
+ * of occurrences.
+ * The array of objects is sorted alphabetically.
  * 
  * @author Richard Fellinger rich@richfell.org
  */
@@ -26,31 +28,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/words")
 public class WordCountController
 {
+    /** logger instance */
     static private final Logger LOGGER = LoggerFactory.getLogger(WordCountController.class);
 
     /**
      * Accepts a <code>Paragraph</code> and returns a collection of the unique words from the supplied
      * paragraph along with a count of the number of occurrences.
      * 
-     * @param paragraph the paragraph to analyze
+     * @param paragraph  the paragraph to analyze
      * @return a collection of <code>UniqueWord</code>s
      */
     @RequestMapping(method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Collection<UniqueWord> getUniqueWords(@RequestBody Paragraph paragraph)
     {
         // validate the input
-        Preconditions.checkNotNull(paragraph);
-        Preconditions.checkNotNull(paragraph.getText());
+        Preconditions.checkArgument(paragraph != null, "Missing input!");
+        Preconditions.checkArgument(paragraph.getText() != null, "Missing paragraph text!");
 
-        LOGGER.info("Processing paragraph: {}", paragraph.getText());
+        LOGGER.trace("Processing paragraph: {}", paragraph.getText());
 
         return countUniqueWords(paragraph);
     }
 
     /**
+     * Finds the set of unique words used in the <code>paragraph</code> and the occurrence of each.
      * 
-     * @param paragraph
-     * @return 
+     * @param paragraph  the source of the paragraph text
+     * @return a <code>UniqueWord</code> for each unique word in the paragraph
      */
     static private Collection<UniqueWord> countUniqueWords(Paragraph paragraph)
     {
@@ -68,7 +72,7 @@ public class WordCountController
             String nextWord = wordScanner.next();
 
             // merge in the word, incrementing the count by one if it is already mapped
-            wordMap.merge(nextWord.toLowerCase(), 1L, (a,b) -> a + b);
+            wordMap.merge(nextWord.toLowerCase(), 1L, (count,inc) -> count + inc);
         }
 
         // create an SortedSet with UniqueWord instances

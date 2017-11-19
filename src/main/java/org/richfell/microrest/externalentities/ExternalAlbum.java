@@ -4,7 +4,8 @@
 package org.richfell.microrest.externalentities;
 
 /**
- *
+ * A class for JSONPlaceholder album entities.
+ * 
  * @author Richard Fellinger rich@richfell.org
  */
 public class ExternalAlbum
@@ -20,7 +21,7 @@ extends ExternalEntity
     /**
      * Creates a <code>ExternalAlbum</code> with the given ID.
      * 
-     * @param id the ID for the album
+     * @param id  the ID for the album
      */
     public ExternalAlbum(Long id)
     {
@@ -33,7 +34,7 @@ extends ExternalEntity
     /**
      * Gets the ID of the user whom made the post.
      * 
-     * @return the user's ID
+     * @return  the user's ID
      */
     public Long getUserId()
     {
@@ -43,7 +44,7 @@ extends ExternalEntity
     /**
      * Sets the ID of the user whom made the post.
      * 
-     * @param userId the user's ID
+     * @param userId  the user's ID
      */
     public void setUserId(Long userId)
     {
@@ -56,7 +57,7 @@ extends ExternalEntity
     /**
      * Gets the album title.
      * 
-     * @return the title
+     * @return  the title
      */
     public String getTitle()
     {
@@ -66,7 +67,7 @@ extends ExternalEntity
     /**
      * Sets the album title.
      * 
-     * @param title the title
+     * @param title  the title
      */
     public void setTitle(String title)
     {

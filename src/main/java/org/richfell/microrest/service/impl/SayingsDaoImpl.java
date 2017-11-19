@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.service.impl;
 
@@ -18,6 +16,9 @@ public class SayingsDaoImpl
 extends JpaDao<Saying, Integer>
 implements SayingsDao
 {
+    /**
+     * Creates a <code>SayingsDaoImpl</code>.
+     */
     public SayingsDaoImpl()
     {
     }

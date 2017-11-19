@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.controllers.errors;
 
@@ -28,8 +26,8 @@ extends RuntimeException
     /**
      * Creates a <code>ResourceNotFoundException</code> with a detail message and cause.
      * 
-     * @param message the message for the exception
-     * @param cause the exception which is a root cause
+     * @param message  the message for the exception
+     * @param cause  a root cause of this exception
      */
     public ResourceNotFoundException(final String message, final Throwable cause)
     {
@@ -39,7 +37,7 @@ extends RuntimeException
     /**
      * Constructs a <code>ResourceNotFoundException</code> with the specified detail message.
      * 
-     * @param message the detail message.
+     * @param message  the detail message
      */
     public ResourceNotFoundException(final String message)
     {
@@ -49,7 +47,7 @@ extends RuntimeException
     /**
      * Creates a <code>ResourceNotFoundException</code> with a cause.
      * 
-     * @param cause 
+     * @param cause  a root cause of this exception
      */
     public ResourceNotFoundException(final Throwable cause)
     {

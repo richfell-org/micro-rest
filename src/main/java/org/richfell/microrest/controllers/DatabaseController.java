@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.controllers;
 
@@ -24,7 +22,8 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- *
+ * REST endpoints for implementing add, query and delete of rows in a database.
+ * 
  * @author Richard Fellinger rich@richfell.org
  */
 @RestController
@@ -60,7 +59,7 @@ public class DatabaseController
      * Gets all <code>Saying</code> entities which contain the given
      * text within their quotes.
      * 
-     * @param contains the text to match
+     * @param contains  the text to match
      * @return the collection of matching sayings
      */
     @RequestMapping(
@@ -75,20 +74,20 @@ public class DatabaseController
     /**
      * Gets the <code>Saying</code> with the ID.
      * 
-     * @param id the ID of the saying
+     * @param id  the ID of the saying
      * @return the <code>Saying</code> with the ID
      */
     @RequestMapping(path="/{id:[0-9]+}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Saying getSaying(@PathVariable("id") Integer id)
     {
-        return RestPreconditions.checkFound(sayingsService.findOne(id));
+        return RestPreconditions.checkFound(sayingsService.findOne(id), "Saying not found for ID %d", id);
     }
 
     /**
      * Create a new saying.
      * 
-     * @param b the builder for the <code>Location</code> response header
-     * @param saying the new saying to persist
+     * @param b  the builder for the <code>Location</code> response header
+     * @param saying  the new saying to persist
      * @return an empty response body
      */
     @ResponseStatus(HttpStatus.CREATED)
@@ -111,17 +110,17 @@ public class DatabaseController
     /**
      * Updates an existing <code>Saying</code> with the given value.
      * 
-     * @param id the ID of the saying
-     * @param saying the new value for the saying
+     * @param id  the ID of the saying
+     * @param saying  the new value for the saying
      */
     @RequestMapping(path="/{id:[0-9]+}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void updateSaying(@PathVariable("id") Integer id, @RequestBody Saying saying)
     {
         // verify the input
-        Preconditions.checkNotNull(saying);
-        RestPreconditions.checkFound(sayingsService.findOne(id));
+        Preconditions.checkNotNull(saying, "Missing input!");
+        RestPreconditions.checkFound(sayingsService.findOne(id), "Saying not found [id == %d]", id);
 
-        LOGGER.info("Updating saying {} with {}", id, saying);
+        LOGGER.trace("Updating Saying [id == {}]", id);
 
         // force the ID to the one in the request path
         saying.setId(id);
@@ -133,13 +132,13 @@ public class DatabaseController
     /**
      * Delete a saying.
      * 
-     * @param id the ID of the saying to delete
+     * @param id  the ID of the saying to delete
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(path="/{id:[0-9]+}", method=RequestMethod.DELETE)
     public void deleteSaying(@PathVariable("id") Integer id)
     {
-        LOGGER.info("Deleting saying with ID {}", id);
+        LOGGER.trace("Deleting Saying [id == {}]", id);
         sayingsService.deleteById(id);
     }
 }

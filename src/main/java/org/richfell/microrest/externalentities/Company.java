@@ -4,7 +4,7 @@
 package org.richfell.microrest.externalentities;
 
 /**
- * A company for user entities from JSONPlaceholder.
+ * A company for JSONPlaceholder user entity compamy fields.
  * 
  *  https://jsonplaceholder.typicode.com/
  * 

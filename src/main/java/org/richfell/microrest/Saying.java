@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest;
 
@@ -13,7 +11,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- *
+ * A JPA entity class for records of the sayings DB table.
+ * 
  * @author Richard Fellinger rich@richfell.org
  */
 @Entity
@@ -26,15 +25,30 @@ implements java.io.Serializable
 {
     static final long serialVersionUID = 42L;
 
+    /**
+     * Creates a <code>Saying</code>.
+     */
     public Saying()
     {
     }
 
+    /**
+     * Creates a <code>Saying</code> and sets its ID.
+     * 
+     * @param id 
+     */
     public Saying(Integer id)
     {
         this.id = id;
     }
 
+    /**
+     * Creates a <code>Saying</code> and sets all of its fields.
+     * 
+     * @param id  the saying ID
+     * @param name  the name of the person
+     * @param quote   the "famous" quote from the person
+     */
     public Saying(Integer id, String name, String quote)
     {
         this(id);
@@ -60,7 +74,7 @@ implements java.io.Serializable
     /***
      * Sets the record ID.
      * 
-     * @param id the record ID
+     * @param id  the record ID
      */
     public void setId(Integer id)
     {
@@ -84,7 +98,7 @@ implements java.io.Serializable
     /**
      * Sets the name of the person.
      * 
-     * @param name the name of the person
+     * @param name  the name of the person
      */
     public void setName(String name)
     {
@@ -108,7 +122,7 @@ implements java.io.Serializable
     /**
      * Sets the quote.
      * 
-     * @param quote the quote
+     * @param quote  the quote
      */
     public void setQuote(String quote)
     {
