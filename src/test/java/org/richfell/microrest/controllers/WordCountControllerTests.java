@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.controllers;
 
@@ -24,7 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- *
+ * Tests for the /words REST controller.
+ * 
  * @author Richard Fellinger rich@richfell.org
  */
 @SpringBootTest

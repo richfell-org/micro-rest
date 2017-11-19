@@ -1,5 +1,3 @@
-/*
- */
 
 package org.richfell.microrest.controllers;
 
@@ -24,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Tests for the /fibonacci-numbers controller.
+ * Tests for the /fibonacci-numbers REST controller.
  * 
  * @author Richard Fellinger rich@richfell.org
  */

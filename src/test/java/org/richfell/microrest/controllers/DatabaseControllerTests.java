@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
 /**
- * Test for the /sayings controller.
+ * Test for the /sayings REST controller.
  * 
  * @author Richard Fellinger rich@richfell.org
  */
