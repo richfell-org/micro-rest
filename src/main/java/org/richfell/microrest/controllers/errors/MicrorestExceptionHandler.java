@@ -39,6 +39,25 @@ extends ResponseEntityExceptionHandler
     }
 
     /**
+     * Handlers response for missing content for a request.
+     * This will result in status 422 Unprocessable Entity
+     * 
+     * @param ex the exception thrown from the REST API
+     * @param request the request
+     * @return the response entity for a <code>RestApiError</code>
+     */
+    @ExceptionHandler(MissingContentException.class)
+    protected ResponseEntity<Object> handleMissingContent(MissingContentException ex, ServletWebRequest request)
+    {
+        LOGGER.error(
+            "[{} {}]: Missing content - {}",
+            request.getHttpMethod(), request.getDescription(false), ex.getLocalizedMessage());
+        LOGGER.debug("Caused by {}", ex.getClass().getSimpleName(), ex);
+
+        return buildApiErrorEntity(new RestApiError(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), ex));
+    }
+
+    /**
      * Handles response for entity not found.
      * 
      * @param ex the exception thrown from the REST API
@@ -51,8 +70,8 @@ extends ResponseEntityExceptionHandler
         LOGGER.error(
             "[{} {}]: Entity not found - {}",
             request.getHttpMethod(), request.getDescription(false), ex.getLocalizedMessage());
-
         LOGGER.debug("Caused by {}", ex.getClass().getSimpleName(), ex);
+
         return buildApiErrorEntity(new RestApiError(HttpStatus.NOT_FOUND, ex.getMessage(), ex));
     }
 
@@ -68,8 +87,8 @@ extends ResponseEntityExceptionHandler
         LOGGER.error(
             "[{} {}]: illegal argument - {}",
             request.getHttpMethod(), request.getDescription(false), ex.getLocalizedMessage());
-
         LOGGER.debug("Caused by {}", ex.getClass().getSimpleName(), ex);
+
         return buildApiErrorEntity(new RestApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ex));
     }
 
@@ -85,6 +104,7 @@ extends ResponseEntityExceptionHandler
     {
         LOGGER.error("[{} {}]: {}", request.getHttpMethod(), request.getDescription(false), ex.getMessage());
         LOGGER.debug("Caused by {}", ex.getClass().getSimpleName(), ex);
+
         return buildApiErrorEntity(new RestApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", ex));
     }
 

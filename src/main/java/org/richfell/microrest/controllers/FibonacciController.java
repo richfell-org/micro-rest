@@ -2,7 +2,7 @@
 package org.richfell.microrest.controllers;
 
 import java.util.List;
-import org.richfell.microrest.util.Preconditions;
+import org.richfell.microrest.util.RestPreconditions;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/fibonacci-numbers")
-public class FibonacciController
+class FibonacciController
 {
     /**
      * Makes a list of the first N number of Fibonacci numbers.  The value for
@@ -29,8 +29,8 @@ public class FibonacciController
     @RequestMapping(method=RequestMethod.GET)
     public List<Integer> getFirstN(@RequestParam("n") Integer N)
     {
-        Preconditions.checkArgument(N != null, "value for parameter n is required");
-        Preconditions.checkArgument(N >= 0, "value for parameter n is invalid: %d", N);
+        RestPreconditions.checkArgument(N != null, "value for parameter n is required");
+        RestPreconditions.checkArgument(N >= 0, "value for parameter n is invalid: %d", N);
         return getFibonacciNumbers(N);
     }
 

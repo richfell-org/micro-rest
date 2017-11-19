@@ -20,20 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/threads")
-public class DeadlockedThreadsController
+class DeadlockedThreadsController
 {
     /** logger instance */
     static private final Logger LOGGER = LoggerFactory.getLogger(DeadlockedThreadsController.class);
 
+    /** A <code>Producer<code> resource */
     @Resource
     private Producer resource1;
 
+    /** Another <code>Producer</code> resource */
     @Resource
     private Producer resource2;
 
     /**
+     * Starts two threads which become deadlocked acquiring their given producer resources.
      * 
-     * @return 
+     * @return a message about the threads
      */
     @RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Message startThreads()
@@ -50,7 +53,7 @@ public class DeadlockedThreadsController
 
         try
         {
-            thread2.join(1000);
+            thread2.join(2000);
             if(thread2.isAlive())
                 message = "Deadlocked";
         }

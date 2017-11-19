@@ -1,11 +1,11 @@
 
 package org.richfell.microrest.controllers;
 
+import org.richfell.microrest.util.RestPreconditions;
 import java.util.Collection;
 import javax.annotation.Resource;
 import org.richfell.microrest.Saying;
 import org.richfell.microrest.service.SayingsService;
-import org.richfell.microrest.util.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 @RestController
 @RequestMapping("/sayings")
-public class DatabaseController
+class DatabaseController
 {
     static final Logger LOGGER = LoggerFactory.getLogger(DatabaseController.class);
 
@@ -68,7 +68,7 @@ public class DatabaseController
         produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Collection<Saying> getSayings(@RequestParam("contains") String contains)
     {
-        return sayingsService.findQuotesContaining(Preconditions.checkNotNull(contains));
+        return sayingsService.findQuotesContaining(RestPreconditions.checkArgNotNull(contains));
     }
 
     /**
@@ -95,7 +95,7 @@ public class DatabaseController
     public ResponseEntity<Void> createSaying(UriComponentsBuilder b, @RequestBody Saying saying)
     {
         // must have a non-null parameter
-        Preconditions.checkNotNull(saying);
+        RestPreconditions.checkContentNotNull(saying, "Saying object is required!");
 
         LOGGER.info("Creating saying {}", saying);
 
@@ -117,7 +117,7 @@ public class DatabaseController
     public void updateSaying(@PathVariable("id") Integer id, @RequestBody Saying saying)
     {
         // verify the input
-        Preconditions.checkNotNull(saying, "Missing input!");
+        RestPreconditions.checkContentNotNull(saying, "Saying object is required!");
         RestPreconditions.checkFound(sayingsService.findOne(id), "Saying not found [id == %d]", id);
 
         LOGGER.trace("Updating Saying [id == {}]", id);

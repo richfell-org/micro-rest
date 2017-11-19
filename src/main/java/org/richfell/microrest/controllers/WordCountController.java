@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import org.richfell.microrest.Paragraph;
 import org.richfell.microrest.UniqueWord;
-import org.richfell.microrest.util.Preconditions;
+import org.richfell.microrest.util.RestPreconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/words")
-public class WordCountController
+class WordCountController
 {
     /** logger instance */
     static private final Logger LOGGER = LoggerFactory.getLogger(WordCountController.class);
@@ -42,8 +42,8 @@ public class WordCountController
     public Collection<UniqueWord> getUniqueWords(@RequestBody Paragraph paragraph)
     {
         // validate the input
-        Preconditions.checkArgument(paragraph != null, "Missing input!");
-        Preconditions.checkArgument(paragraph.getText() != null, "Missing paragraph text!");
+        RestPreconditions.checkContentNotNull(paragraph, "Paragraph object is required!");
+        RestPreconditions.checkArgument(paragraph.getText() != null, "Missing paragraph text!");
 
         LOGGER.trace("Processing paragraph: {}", paragraph.getText());
 

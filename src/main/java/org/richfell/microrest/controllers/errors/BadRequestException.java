@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Error thrown for requests with incomplete or erroneous inputs.
  * 
- * @author Richard Fellinger <rich@richfell.org>
+ * @author Richard Fellinger rich@richfell.org
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BadRequestException
