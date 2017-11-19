@@ -49,8 +49,8 @@ To run using the default service port of 8080:
 
         java -jar build/libs/micro-rest.jar
 
-To have the application listen on a different port, use the `service.port` argument with the value of the desired
-port.  The format to use is `--service.port=PORTNUM` where `PORTNUM` is the port number.  To use 9090, for example:
+To have the application listen on a different port, use the `--service.port=PORTNUM` argument, where `PORTNUM` is the desired
+port.  To use 9090, for example, run with:
 
         java -jar build/libs/micro-rest.jar --service.port=9090 
 
