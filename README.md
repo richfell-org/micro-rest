@@ -1,4 +1,4 @@
-# Microrest
+# Micro-rest
 
 A coding assessment.  A REST service built on [Spring Boot](https://projects.spring.io/spring-boot/) that provides the
 following:
@@ -42,17 +42,17 @@ To run the tests:
 
 ## Running
 
-To run microrest from the command line use java with the -jar option and provide the path to the microrest JAR file.  The following
+To run from the command line use java with the -jar option and provide the path to the micro-rest JAR file.  The following
 examples assume the current working directory is the root directory of the project and uses a relative path to the JAR file.
 
 To run using the default service port of 8080:
 
         java -jar build/libs/micro-rest.jar
 
-To have the microrest application listen on a different port, set the `service.port` property with the value of the desired
-port.  The format to use is `-Dservice.port=PORTNUM` where `PORTNUM` is the port number.  To use 9090, for example:
+To have the application listen on a different port, use the `service.port` argument with the value of the desired
+port.  The format to use is `--service.port=PORTNUM` where `PORTNUM` is the port number.  To use 9090, for example:
 
-        java -Dservice.port=9090 -jar build/libs/micro-rest.jar
+        java -jar build/libs/micro-rest.jar --service.port=9090 
 
 and the application will use port 9090 instead of 8080.
 
@@ -61,7 +61,7 @@ and the application will use port 9090 instead of 8080.
 The API is accessed using HTTP.  Successful responses result in content specific to the endpoint and is described in the following
 sections.  When errors occur during request processing each endpoint returns a common error object in the body.
 
-Error response structure:
+Error response object structure:
 
 ```
         {
@@ -165,7 +165,7 @@ A list of the first N Fibonacci numbers is returned as a JSON array of integers.
 
 ### 4) The threads deadlock endpoint
 
-TODO: description
+Creates two threads that become deadlocked with each other.  The condition will be detected and a message, "Deadlocked" returned.
 
 *   #### URL
 
@@ -178,6 +178,7 @@ TODO: description
 *   #### Success Response
 
     + **Code:** 200 <br/>
+    + **Content:** `{ content: "Deadlocked" }`
 
 *   #### Using curl
 

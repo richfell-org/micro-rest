@@ -3,6 +3,7 @@ package org.richfell.microrest.config;
 
 import java.util.Collection;
 import java.util.Map;
+import org.richfell.microrest.Producer;
 import org.richfell.microrest.externalentities.ExternalAlbum;
 import org.richfell.microrest.externalentities.ExternalComment;
 import org.richfell.microrest.externalentities.ExternalPhoto;
@@ -21,6 +22,28 @@ import org.springframework.core.ParameterizedTypeReference;
 @Configuration
 public class AppConfig
 {
+    /**
+     * A resource used in the "create 2 threads" REST endpoint.
+     * 
+     * @return a <code>Producer</code> resource
+     */
+    @Bean("resource1")
+    public Producer resource1Bean()
+    {
+        return new Producer();
+    }
+
+    /**
+     * A resource used in the "create 2 threads" REST endpoint.
+     * 
+     * @return a <code>Producer</code> resource
+     */
+    @Bean("resource2")
+    public Producer resource2Bean()
+    {
+        return new Producer(1000, -2);
+    }
+
     /**
      * A map of JSONPlaceholder entity names to their Java types.
      * 

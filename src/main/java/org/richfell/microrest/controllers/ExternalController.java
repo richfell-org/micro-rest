@@ -183,6 +183,7 @@ class ExternalController
                 builder.append(String.format("%s=%s&", n, encodeQueryParam(v)));
             });
 
+            // the extra '&' character at the end of the query parameters is not needed
             result = builder.substring(0, builder.length() - 1);
         }
 

@@ -63,7 +63,7 @@ public class WordCountController
 
         // replace all punctuation with spaces and then scan space delimited tokens
         java.util.Scanner wordScanner = new java.util.Scanner(
-            paragraph.getText().replaceAll("[^\\p{L}]", " ")).useDelimiter(" +");
+            paragraph.getText().replaceAll("[^\\p{L}]", " ")).useDelimiter("\\s+");
 
         // read each word and count the occurrences
         while(wordScanner.hasNext())

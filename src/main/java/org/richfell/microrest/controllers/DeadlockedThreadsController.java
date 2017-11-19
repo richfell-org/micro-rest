@@ -1,7 +1,10 @@
 
 package org.richfell.microrest.controllers;
 
+import javax.annotation.Resource;
+import org.richfell.microrest.Consumer;
 import org.richfell.microrest.Message;
+import org.richfell.microrest.Producer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -22,6 +25,12 @@ public class DeadlockedThreadsController
     /** logger instance */
     static private final Logger LOGGER = LoggerFactory.getLogger(DeadlockedThreadsController.class);
 
+    @Resource
+    private Producer resource1;
+
+    @Resource
+    private Producer resource2;
+
     /**
      * 
      * @return 
@@ -30,6 +39,26 @@ public class DeadlockedThreadsController
     public Message startThreads()
     {
         LOGGER.trace("starting deadlock threads.");
-        return new Message("Started");
+
+        Thread thread1 = new Thread(new Consumer(resource2, resource1), "Thread1");
+        Thread thread2 = new Thread(new Consumer(resource1, resource2), "Thread2");
+
+        thread1.start();
+        thread2.start();
+
+        String message = "Started";
+
+        try
+        {
+            thread2.join(1000);
+            if(thread2.isAlive())
+                message = "Deadlocked";
+        }
+        catch(InterruptedException e)
+        {
+            message = "Interrupted";
+        }
+
+        return new Message(message);
     }
 }
