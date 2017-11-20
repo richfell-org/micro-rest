@@ -1,10 +1,12 @@
 
 package org.richfell.microrest.controllers.errors;
 
+import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,10 +78,11 @@ extends ResponseEntityExceptionHandler
     }
 
     /**
+     * Handles response for missing and invalid request parameters.
      * 
-     * @param ex
-     * @param request
-     * @return 
+     * @param ex the exception thrown from the REST API
+     * @param request the request
+     * @return the response entity for a <code>RestApiError</code>
      */
     @ExceptionHandler(IllegalArgumentException.class)
     protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, ServletWebRequest request)
@@ -90,6 +93,24 @@ extends ResponseEntityExceptionHandler
         LOGGER.debug("Caused by {}", ex.getClass().getSimpleName(), ex);
 
         return buildApiErrorEntity(new RestApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ex));
+    }
+
+    /**
+     * Handles response for database errors.
+     * 
+     * @param ex the exception thrown from the REST API
+     * @param request the request
+     * @return the response entity for a <code>RestApiError</code>
+     */
+    @ExceptionHandler(DataAccessException.class)
+    protected ResponseEntity<Object> handleDataAccessException(DataAccessException ex, ServletWebRequest request)
+    {
+        LOGGER.error(
+            "[{} {}]: Data access error - {}",
+            request.getHttpMethod(), request.getDescription(false), ex.getLocalizedMessage());
+        LOGGER.debug("Caused by {}", ex.getClass().getSimpleName(), ex);
+
+        return buildApiErrorEntity(new RestApiError(HttpStatus.UNPROCESSABLE_ENTITY, "Data content error", ex));
     }
 
     /**

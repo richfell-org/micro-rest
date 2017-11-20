@@ -27,7 +27,7 @@ class FibonacciController
      * @return the list of Fibonacci numbers
      */
     @RequestMapping(method=RequestMethod.GET)
-    public List<Integer> getFirstN(@RequestParam("n") Integer N)
+    public List<Long> getFirstN(@RequestParam("n") Integer N)
     {
         RestPreconditions.checkArgument(N != null, "value for parameter n is required");
         RestPreconditions.checkArgument(N >= 0, "value for parameter n is invalid: %d", N);
@@ -40,9 +40,9 @@ class FibonacciController
      * @param firstN  the number of Fibonacci numbers to list
      * @return a list with the first <code>firstN</code> Fibonacci numbers
      */
-    static List<Integer> getFibonacciNumbers(Integer firstN)
+    static List<Long> getFibonacciNumbers(Integer firstN)
     {
-        List<Integer> result = new java.util.ArrayList<>(firstN);
+        List<Long> result = new java.util.ArrayList<>(firstN);
         for(int i = 0; i < firstN; ++i)
             result.add(fibonacci(i));
         return result;
@@ -55,7 +55,7 @@ class FibonacciController
      * @param n  the Fibonacci number to calculate
      * @return the <code>n</code>th Fibonacci number
      */
-    static int fibonacci(int n)
+    static long fibonacci(int n)
     {
         // fibonacci(1) == 1 and fibonacci(0) == 0
         if(n < 2)

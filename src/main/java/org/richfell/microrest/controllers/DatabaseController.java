@@ -44,15 +44,7 @@ class DatabaseController
     @RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Collection<Saying> getSayings()
     {
-        try
-        {
-            return sayingsService.findAll();
-        }
-        catch(Throwable e)
-        {
-            LOGGER.error("Error with SayingsService", e);
-            throw e;
-        }
+        return sayingsService.findAll();
     }
 
     /**

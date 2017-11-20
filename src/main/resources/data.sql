@@ -3,6 +3,8 @@
  * Created: Nov 14, 2017
  */
 
+delete from sayings;
+
 insert into sayings (name, quote) values
 ('Benjamin Franklin', 'Early to bed and early to rise makes a man healthy, wealthy and wise.'),
 ('Albert Einstein', 'Logic will get you from A to Z; imagination will take you everywhere.'),

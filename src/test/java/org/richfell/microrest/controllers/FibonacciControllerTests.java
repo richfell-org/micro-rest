@@ -9,10 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.richfell.microrest.Application;
-import org.richfell.microrest.config.PersistenceConfig;
 import org.richfell.microrest.controllers.errors.MicrorestExceptionHandler;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,9 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * 
  * @author Richard Fellinger rich@richfell.org
  */
-@SpringBootTest(
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = { Application.class, PersistenceConfig.class })
 @RunWith(JMockit.class)
 public class FibonacciControllerTests
 {
