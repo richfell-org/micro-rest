@@ -53,6 +53,11 @@ To run the tests:
 
         gradle test
 
+After running the tests a JaCoCo report can be generated with:
+
+        gradle jacocoTestReport
+
+and the results can be viewed by opening the file `build/jacocoHtml/index.html`.
 
 ## Running
 

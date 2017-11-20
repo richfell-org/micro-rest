@@ -4,6 +4,7 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
+apply plugin: "jacoco"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -15,6 +16,25 @@ springBoot {
 bootRun {
     main = 'org.richfell.microrest.Application'
     jvmArgs = ["-Dserver.port=9090"]
+}
+
+task javadocAll(type: Javadoc) {
+    source = sourceSets.main.allJava
+    destinationDir = file("${rootDir}/docs/javadoc")
+    options.showAll()    
+}
+
+jacoco {
+    toolVersion = "0.7.9"
+    reportsDir = file("$buildDir/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
 }
 
 repositories {
