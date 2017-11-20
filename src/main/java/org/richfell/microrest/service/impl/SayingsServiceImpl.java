@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class SayingsServiceImpl
 implements SayingsService
 {
-    /** The DAO for <codee>Saying</code> entities */
+    /** The DAO for <code>Saying</code> entities */
     @Resource
     private SayingsDao sayingsDao;
 

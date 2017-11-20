@@ -84,10 +84,9 @@ class ExternalController
      * 
      *  http://HOST:port/external/posts/1/comments
      * 
-     * @param <T>  the type being fetched from the external REST service
      * @param restTemplate  the object used to request from the external REST service
      * @param entityName  the name of the "one" entity
-     * @param id  the ID of the entity named in <code>entityName<code>
+     * @param id  the ID of the entity named in <code>entityName</code>
      * @param nestedEntityName  the name of the "many" entity 
      * @param params  a capture of the request's query parameters
      * @return the collection of entities returned by the external REST service

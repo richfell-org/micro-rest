@@ -25,7 +25,7 @@ class DeadlockedThreadsController
     /** logger instance */
     static private final Logger LOGGER = LoggerFactory.getLogger(DeadlockedThreadsController.class);
 
-    /** A <code>Producer<code> resource */
+    /** A <code>Producer</code> resource */
     @Resource
     private Producer resource1;
 

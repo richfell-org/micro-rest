@@ -25,13 +25,27 @@ following:
 [Gradle](https://gradle.org) is used for dependency management and building.  The build file, `build.gradle`, is located in
 the project's root directory.  To build using the command line make the project root the working directory and use gradle.
 
-To build:
+#### Build:
 
         gradle build
 
-To clean:
+#### Clean:
 
         gradle clean
+
+### Generating javaDocs documentation:
+
+#### Public only
+
+    The output is in build/docs/javadoc
+
+        gradle javadoc
+
+#### All
+
+    The output is in docs/javadoc
+
+        gradle javadocAll
 
 ### Running tests
 
